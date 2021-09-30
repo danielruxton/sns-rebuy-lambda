@@ -6,6 +6,6 @@ codeuri = "/Users/daniel.ruxton/Work/sns-rebuy-lambda/src"
 runtime = "nodejs14.x"
 source_md5 = ""
 packagetype = "Zip"
-functions = ["HelloWorldFunction"]
+functions = ["RebuyEnableFunction"]
 
 [layer_build_definitions]

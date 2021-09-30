@@ -14,17 +14,13 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  *
  */
+console.log("Spinning up...");
 exports.lambdaHandler = async (event, context) => {
-  console.log("Yarp");
+  console.log("Yarparino");
   try {
-    // const ret = await axios(url);
-    response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: "hello world",
-        // location: ret.data.trim()
-      }),
-    };
+    var message = event.Records[0].Sns.Message;
+    console.log("Message received from SNS:", message);
+    callback(null, "Success");
   } catch (err) {
     console.log(err);
     return err;

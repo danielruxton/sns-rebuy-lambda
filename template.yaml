@@ -11,24 +11,24 @@ Globals:
     Timeout: 3
 
 Resources:
-  HelloWorldFunction:
+  RebuyEnableFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/
       Handler: app.lambdaHandler
       Runtime: nodejs14.x
       Events:
-        HelloWorld:
+        RebuyEnable:
           Type: SNS
           Properties:
-            Topic: arn:aws:sns:us-east-1:123456789012:my_topic
+            Topic: arn:aws:sns:us-east-1:123456789012:my_test_topic
             FilterPolicy:
-              store:
-                - example_corp
-              price_usd:
-                - numeric:
-                    - ">="
-                    - 100
+              poType:
+                - string:
+                    - "Retail"
+              purchaseType:
+                - string:
+                    - "Rebuy"
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
