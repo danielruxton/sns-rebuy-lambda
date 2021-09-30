@@ -1,5 +1,5 @@
 require("dotenv").config();
-const axios = require("axios");
+const nodeFetch = require("node-fetch");
 // const url = 'http://checkip.amazonaws.com/';
 let response;
 
@@ -16,21 +16,48 @@ let response;
  *
  */
 console.log("Spinning up...");
-exports.lambdaHandler = async (event, context, callback) => {
-  console.log("Checking recieved message is valid:");
-  try {
-    var message = event.Records[0].Sns.Message;
-    console.log("Message received from SNS:", message);
-    console.log(event.Records[0].Sns);
-    callback(null, "Success");
-  } catch (err) {
-    console.log(err);
-    return err;
+
+  let authHeaders = {
+    Authorization: "",
+    Accept: "*/*",
+    "Content-Type": "application/json",
+    "Accept-Encoding": "gzip, deflate, br",
+    Connection: "keep-alive",
+  };
+
+  const authBody = {
+    username: process.env.PIM_USERNAME,
+    password: process.env.PIM_PASSWORD,
+    grant_type: "password",
+  };
+
+  async function akeneoLogin(fetch = nodeFetch) {
+    const url = `${process.env.PIM_URL}/api/oauth/v1/token`;
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${process.env.PIM_base64ClientIdSecret}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(authBody),
+    })
+      .then((res) => {
+        if (res.status === 200) return res.json();
+      })
+      .then((json) => {
+        {
+          console.log("Successfully authenticated for PIM.");
+          const auth = "Bearer " + json.access_token;
+          authHeaders.Authorization = auth;
+        }
+      })
+      .catch((err) => {
+        console.log(
+          `Error: unable to authenticate with PIM, 
+          ${err}`
+        );
+      });
   }
-
-  return response;
-
-  const akeneoLogin = async (username, password) => {};
 
   const updateEnableOnAkeneo = async (styleCodes) => {
     if (!styleCodes || styleCodes.length < 1)
@@ -39,7 +66,15 @@ exports.lambdaHandler = async (event, context, callback) => {
 
     styleCodes.forEach((style) => {
       // run an update to enable on every product
-      axios.post(process.env.PIMURL, {});
+      const url = `${process.env.PIM_URL}/products/${style}`
+      fetch(url, {
+          method: "PATCH",
+          headers: authHeaders,
+          body: JSON.stringify({ enabled: true }),
+      });
     });
+    
+    exports.lambdaHandler = async (event, context, callback) => {
+        if (event.Records[0].Sns.Message)
+    };
   };
-};
