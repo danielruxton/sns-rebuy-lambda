@@ -4,7 +4,9 @@ This lambda is build to subscribe to the PO Service SnS queue and pick up orders
 
 `sam build` - build a copy of the code into .aws-sam folder.
 `sam local start-api` - start lambda locally
-`sam local generate-event sns notification --message [ message ]` - send an example message via a local sns notification
+`sam local invoke -e example.json` - send the example json provided
+`sam local generate-event sns notification --message [ message ] | sam local invoke -e -` - send a custom example message via a local sns notification
+sam local generate-event sns notification --message "{test: test}" | sam local invoke -e example.json
 
 ---
 
