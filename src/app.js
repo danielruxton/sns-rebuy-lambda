@@ -1,4 +1,5 @@
-// const axios = require('axios')
+require("dotenv").config();
+const axios = require("axios");
 // const url = 'http://checkip.amazonaws.com/';
 let response;
 
@@ -15,11 +16,12 @@ let response;
  *
  */
 console.log("Spinning up...");
-exports.lambdaHandler = async (event, context) => {
-  console.log("Yarparino");
+exports.lambdaHandler = async (event, context, callback) => {
+  console.log("Checking recieved message is valid:");
   try {
     var message = event.Records[0].Sns.Message;
     console.log("Message received from SNS:", message);
+    console.log(event.Records[0].Sns);
     callback(null, "Success");
   } catch (err) {
     console.log(err);
@@ -27,4 +29,17 @@ exports.lambdaHandler = async (event, context) => {
   }
 
   return response;
+
+  const akeneoLogin = async (username, password) => {};
+
+  const updateEnableOnAkeneo = async (styleCodes) => {
+    if (!styleCodes || styleCodes.length < 1)
+      return console.log("No Styles found. Aborting updates.");
+    // get akeneo token
+
+    styleCodes.forEach((style) => {
+      // run an update to enable on every product
+      axios.post(process.env.PIMURL, {});
+    });
+  };
 };
