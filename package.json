@@ -1,17 +1,12 @@
 {
-  "name": "hello_world",
-  "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
-  "main": "./src/app.js",
-  "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
-  "author": "SAM CLI",
-  "license": "MIT",
+  "name": "akeneo-rebuy-updates",
+  "version": "0.0.1",
+  "description": "Lambda created to consume from PO Service SNS Queue and update rebuys to enabled",
+  "private": true,
+  "type": "module",
   "dependencies": {
     "dotenv": "^10.0.0",
-    "node-fetch": "^3.0.0"
-  },
-  "scripts": {
-    "test": "mocha tests/unit/"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
